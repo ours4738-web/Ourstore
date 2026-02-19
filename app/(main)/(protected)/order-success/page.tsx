@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, Package, Truck, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,35 +12,17 @@ const OrderSuccessContent = () => {
     const searchParams = useSearchParams();
     const orderId = searchParams.get('orderId');
     const { orders, getOrders } = useOrders();
-    const [order, setOrder] = useState<any>(null);
+
+    const order = useMemo(() => {
+        if (!orderId || orders.length === 0) return null;
+        return orders.find((o: any) => o._id === orderId) || null;
+    }, [orders, orderId]);
 
     useEffect(() => {
-        if (orderId) {
-            // If we have orders in state, try to find it
-            const found = orders.find((o) => o._id === orderId);
-            if (found) {
-                setOrder(found);
-            } else {
-                // Otherwise fetch orders (which might include this one)
-                getOrders().then((fetchedOrders: any) => {
-                    // fetchedOrders might not be returned directly if getOrders relies on state update.
-                    // But usually hooks update state.
-                    // We'll rely on the 'orders' dependency in a separate effect or just check if useOrders provides a direct fetch.
-                    // Since getOrders in the original code seems to update Redux/state, we might need to wait.
-                });
-            }
-        } else {
-            // logic to handle missing orderId?
-            // Just stay here or redirect?
+        if (orderId && orders.length === 0) {
+            getOrders();
         }
-    }, [orderId]);
-
-    useEffect(() => {
-        if (orders.length > 0 && orderId && !order) {
-            const found = orders.find((o) => o._id === orderId);
-            if (found) setOrder(found);
-        }
-    }, [orders, orderId, order]);
+    }, [orderId, orders.length, getOrders]);
 
 
     if (!orderId) {

@@ -4,9 +4,17 @@ import { Button } from '@/components/ui/button';
 
 const ResumeBuilderBanner = () => {
     const [mounted, setMounted] = useState(false);
+    const [particles, setParticles] = useState<{ top: string; left: string; delay: string; duration: string }[]>([]);
 
     useEffect(() => {
         setMounted(true);
+        const newParticles = [...Array(6)].map((_, i) => ({
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            delay: `${i * 1.5}s`,
+            duration: `${5 + Math.random() * 5}s`
+        }));
+        setParticles(newParticles);
     }, []);
 
     return (
@@ -17,15 +25,15 @@ const ResumeBuilderBanner = () => {
 
             {/* Moving Light Particles */}
             <div className="absolute inset-0 pointer-events-none opacity-20">
-                {mounted && [...Array(6)].map((_, i) => (
+                {mounted && particles.map((p, i) => (
                     <div
                         key={i}
                         className="absolute w-1 h-1 bg-saffron rounded-full animate-float"
                         style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            animationDelay: `${i * 1.5}s`,
-                            animationDuration: `${5 + Math.random() * 5}s`
+                            top: p.top,
+                            left: p.left,
+                            animationDelay: p.delay,
+                            animationDuration: p.duration
                         }}
                     />
                 ))}
