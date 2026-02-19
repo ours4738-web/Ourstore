@@ -5,6 +5,7 @@ import connectDB from '@/lib/mongodb';
 import Product from '@/lib/models/Product';
 import Order from '@/lib/models/Order';
 import User from '@/lib/models/User';
+import Message from '@/lib/models/Message';
 import { verifyAccessToken } from '@/lib/services/tokenService';
 
 async function getAdminUser(req: NextRequest) {
@@ -33,32 +34,80 @@ export async function GET(req: NextRequest) {
         const totalProducts = await Product.countDocuments({ status: 'active' });
         const totalUsers = await User.countDocuments({ isActive: true });
 
+        // Get unread messages count
+        const unreadMessagesCount = await Message.countDocuments({ isRead: false });
+
+        // Get low stock items (stock < 10)
+        const lowStockItems = await Product.find({ stock: { $lt: 10 }, status: 'active' })
+            .select('title stock images')
+            .limit(5);
+
+        // Get recent orders with user details
+        const recentOrders = await Order.find()
+            .populate('userId', 'fullName email')
+            .sort({ createdAt: -1 })
+            .limit(5);
+
+        // Calculate total revenue
         const revenue = await Order.aggregate([
             { $match: { orderStatus: { $ne: 'Cancelled' } } },
             { $group: { _id: null, total: { $sum: '$total' } } },
         ]);
 
+        // Get monthly revenue for chart
         const monthlyRevenue = await Order.aggregate([
             { $match: { orderStatus: { $ne: 'Cancelled' } } },
             {
                 $group: {
-                    _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
                     revenue: { $sum: '$total' },
                     orders: { $sum: 1 },
                 },
             },
-            { $sort: { _id: -1 } },
-            { $limit: 12 },
+            { $sort: { _id: 1 } },
+            { $limit: 30 },
         ]);
 
+        // Generate Recent Activity Log (Combine orders and messages)
+        const [lastOrders, lastMessages] = await Promise.all([
+            Order.find().sort({ createdAt: -1 }).limit(5).populate('userId', 'fullName'),
+            Message.find().sort({ createdAt: -1 }).limit(5)
+        ]);
+
+        const recentActivity = [
+            ...lastOrders.map(o => ({
+                type: 'order',
+                title: `New Order #${o.orderNumber}`,
+                user: o.isGuest ? (o.guestInfo?.fullName || 'Guest') : (o.userId as any)?.fullName || 'Member',
+                time: o.createdAt
+            })),
+            ...lastMessages.map(m => ({
+                type: 'message',
+                title: `New Message: ${m.subject}`,
+                user: m.name,
+                time: m.createdAt
+            }))
+        ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5);
+
         return NextResponse.json({
-            totalOrders, pendingOrders, processingOrders, shippedOrders, deliveredOrders, cancelledOrders,
-            totalProducts, totalUsers,
+            totalOrders,
+            pendingOrders,
+            processingOrders,
+            shippedOrders,
+            deliveredOrders,
+            cancelledOrders,
+            totalProducts,
+            totalUsers,
+            unreadMessagesCount,
+            lowStockItems,
+            recentOrders,
+            recentActivity,
+            salesHistory: monthlyRevenue, // Frontend expects salesHistory
             totalRevenue: revenue[0]?.total || 0,
-            monthlyRevenue,
         });
     } catch (error: unknown) {
         const err = error as Error;
+        console.error('Stats API Error:', err);
         return NextResponse.json({ message: err.message }, { status: 500 });
     }
 }

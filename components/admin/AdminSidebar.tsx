@@ -24,8 +24,8 @@ const AdminSidebar = () => {
     { icon: ShoppingCart, label: 'Orders', path: '/admin/orders' },
     { icon: Users, label: 'Users', path: '/admin/users' },
     { icon: MessageSquare, label: 'Messages', path: '/admin/messages' },
-    { icon: Image, label: 'Hero Sliders', path: '/admin/hero-sliders' },
-    { icon: FileText, label: 'Pages', path: '/admin/pages' },
+    { icon: FileText, label: 'Blogs', path: '/admin/blogs' },
+    { icon: Image, label: 'Gallery', path: '/admin/gallery' },
     { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];
 
