@@ -55,7 +55,7 @@ const ProductsContent = () => {
         (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
     );
 
-    const updateSearchParams = () => {
+    const updateSearchParams = useCallback(() => {
         // Next.js approach to update URL params
         const params = new URLSearchParams();
         if (searchQuery) params.set('search', searchQuery);
@@ -67,8 +67,9 @@ const ProductsContent = () => {
         if (sortOrder !== 'desc') params.set('sortOrder', sortOrder);
 
         router.push(`/products?${params.toString()}`);
-    };
+    }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, router]);
 
+    // ✅ FIRST declare the function
     const fetchProducts = useCallback(() => {
         const debouncedGet = debounce(() => {
             const params: any = {
@@ -85,20 +86,19 @@ const ProductsContent = () => {
             if (isCustomizable) params.isCustomizable = true;
 
             getProducts(params);
-        }, 300);
+        }, 500);
+
         debouncedGet();
     }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, getProducts]);
 
     useEffect(() => {
         getCategories();
         fetchProducts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [fetchProducts, getCategories]);
 
     useEffect(() => {
         fetchProducts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedCategory, isCustomizable, sortBy, sortOrder]);
+    }, [selectedCategory, isCustomizable, sortBy, sortOrder, fetchProducts]);
 
     // Sync URL on significant changes or just let actions trigger it
     useEffect(() => {
@@ -107,14 +107,11 @@ const ProductsContent = () => {
             updateSearchParams();
         }, 500);
         return () => clearTimeout(timer);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedCategory, isCustomizable, sortBy, sortOrder, priceRange, searchQuery]);
-
+    }, [selectedCategory, isCustomizable, sortBy, sortOrder, priceRange, searchQuery, updateSearchParams]);
 
     useEffect(() => {
         fetchProducts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [priceRange]);
+    }, [priceRange, fetchProducts]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
