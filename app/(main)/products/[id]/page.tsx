@@ -24,6 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import Link from 'next/link';
 import { useProducts } from '@/lib/hooks/useProducts';
 import { useCart } from '@/lib/hooks/useCart';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -146,9 +147,9 @@ export default function ProductDetailPage() {
                 {/* Breadcrumb */}
                 <nav className="text-sm mb-6">
                     <ol className="flex items-center gap-2">
-                        <li><a href="/" className="text-muted-foreground hover:text-saffron">Home</a></li>
+                        <li><Link href="/" className="text-muted-foreground hover:text-saffron">Home</Link></li>
                         <li className="text-muted-foreground">/</li>
-                        <li><a href="/products" className="text-muted-foreground hover:text-saffron">Products</a></li>
+                        <li><Link href="/products" className="text-muted-foreground hover:text-saffron">Products</Link></li>
                         <li className="text-muted-foreground">/</li>
                         <li className="text-saffron truncate max-w-xs">{currentProduct.title}</li>
                     </ol>

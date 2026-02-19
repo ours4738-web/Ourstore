@@ -29,6 +29,10 @@ export default defineConfig([
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/set-state-in-effect': 'off',
       'react-hooks/purity': 'off',
+      'react-refresh/only-export-components': 'warn',
+      '@next/next/no-img-element': 'off',
+      '@next/next/no-html-link-for-pages': 'warn',
+      'prefer-const': 'warn',
     },
     languageOptions: {
       ecmaVersion: 2020,

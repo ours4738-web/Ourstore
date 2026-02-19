@@ -60,8 +60,8 @@ const ProductsContent = () => {
         fetchProducts();
     }, []);
 
-    const fetchProducts = useCallback(
-        debounce(() => {
+    const fetchProducts = useCallback(() => {
+        const debouncedGet = debounce(() => {
             const params: any = {
                 page: 1,
                 limit: 12,
@@ -76,9 +76,9 @@ const ProductsContent = () => {
             if (isCustomizable) params.isCustomizable = true;
 
             getProducts(params);
-        }, 300),
-        [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder]
-    );
+        }, 300);
+        debouncedGet();
+    }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, getProducts]);
 
     const updateSearchParams = () => {
         // Next.js approach to update URL params

@@ -70,7 +70,7 @@ const AdminDashboard = () => {
 
     const handleSelectRange = (range: string) => {
         const to = new Date();
-        let from = new Date();
+        const from = new Date();
 
         switch (range) {
             case 'Today':
