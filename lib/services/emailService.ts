@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendEmail = async (to: string, subject: string, html: string, attachments: object[] = []) => {
   try {
-    const logoPath = path.join(process.cwd(), 'server', 'utils', 'assets', 'logo.png');
+    const logoPath = path.join(process.cwd(), 'public', 'images', 'logo.png');
     const info = await transporter.sendMail({
       from: `"Our Store Bhutan" <${process.env.EMAIL_USER}>`,
       to,
