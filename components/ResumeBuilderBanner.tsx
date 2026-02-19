@@ -3,11 +3,10 @@ import { FileText, ArrowRight, Sparkles, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ResumeBuilderBanner = () => {
-    const [mounted, setMounted] = useState(false);
+    const mounted = typeof window !== 'undefined';
     const [particles, setParticles] = useState<{ top: string; left: string; delay: string; duration: string }[]>([]);
 
     useEffect(() => {
-        setMounted(true);
         const newParticles = [...Array(6)].map((_, i) => ({
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,

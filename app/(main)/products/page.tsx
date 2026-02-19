@@ -25,6 +25,82 @@ import { useProducts } from '@/lib/hooks/useProducts';
 import ProductCard from '@/components/ProductCard';
 import { debounce } from '@/lib/helpers';
 
+const FilterContent = ({
+    categories,
+    selectedCategory,
+    setSelectedCategory,
+    priceRange,
+    setPriceRange,
+    isCustomizable,
+    setIsCustomizable,
+    hasActiveFilters,
+    clearFilters
+}: {
+    categories: string[];
+    selectedCategory: string;
+    setSelectedCategory: (val: string) => void;
+    priceRange: [number, number];
+    setPriceRange: (val: [number, number]) => void;
+    isCustomizable: boolean;
+    setIsCustomizable: (val: boolean) => void;
+    hasActiveFilters: boolean;
+    clearFilters: () => void;
+}) => (
+    <div className="space-y-6">
+        {/* Categories */}
+        <div>
+            <h4 className="font-medium mb-3">Categories</h4>
+            <div className="space-y-2">
+                {(categories || []).map((category) => (
+                    <label key={category} className="flex items-center gap-2 cursor-pointer">
+                        <Checkbox
+                            checked={selectedCategory === category}
+                            onCheckedChange={() =>
+                                setSelectedCategory(selectedCategory === category ? '' : category)
+                            }
+                        />
+                        <span className="text-sm">{category}</span>
+                    </label>
+                ))}
+            </div>
+        </div>
+
+        {/* Price Range */}
+        <div>
+            <h4 className="font-medium mb-3">Price Range</h4>
+            <Slider
+                value={priceRange}
+                onValueChange={(value) => setPriceRange(value as [number, number])}
+                max={50000}
+                step={500}
+                className="mb-4"
+            />
+            <div className="flex items-center justify-between text-sm">
+                <span>Nu. {priceRange[0]}</span>
+                <span>Nu. {priceRange[1]}</span>
+            </div>
+        </div>
+
+        {/* Customizable */}
+        <div>
+            <label className="flex items-center gap-2 cursor-pointer">
+                <Checkbox
+                    checked={isCustomizable}
+                    onCheckedChange={(checked) => setIsCustomizable(checked as boolean)}
+                />
+                <span className="text-sm">Customizable Products Only</span>
+            </label>
+        </div>
+
+        {hasActiveFilters && (
+            <Button variant="outline" className="w-full" onClick={clearFilters}>
+                <X className="w-4 h-4 mr-2" />
+                Clear Filters
+            </Button>
+        )}
+    </div>
+);
+
 const ProductsContent = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -131,63 +207,8 @@ const ProductsContent = () => {
     };
 
     const hasActiveFilters =
-        searchQuery || selectedCategory || priceRange[0] > 0 || priceRange[1] < 50000 || isCustomizable;
+        !!(searchQuery || selectedCategory || priceRange[0] > 0 || priceRange[1] < 50000 || isCustomizable);
 
-    const FilterContent = () => (
-        <div className="space-y-6">
-            {/* Categories */}
-            <div>
-                <h4 className="font-medium mb-3">Categories</h4>
-                <div className="space-y-2">
-                    {(categories || []).map((category) => (
-                        <label key={category} className="flex items-center gap-2 cursor-pointer">
-                            <Checkbox
-                                checked={selectedCategory === category}
-                                onCheckedChange={() =>
-                                    setSelectedCategory(selectedCategory === category ? '' : category)
-                                }
-                            />
-                            <span className="text-sm">{category}</span>
-                        </label>
-                    ))}
-                </div>
-            </div>
-
-            {/* Price Range */}
-            <div>
-                <h4 className="font-medium mb-3">Price Range</h4>
-                <Slider
-                    value={priceRange}
-                    onValueChange={(value) => setPriceRange(value as [number, number])}
-                    max={50000}
-                    step={500}
-                    className="mb-4"
-                />
-                <div className="flex items-center justify-between text-sm">
-                    <span>Nu. {priceRange[0]}</span>
-                    <span>Nu. {priceRange[1]}</span>
-                </div>
-            </div>
-
-            {/* Customizable */}
-            <div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <Checkbox
-                        checked={isCustomizable}
-                        onCheckedChange={(checked) => setIsCustomizable(checked as boolean)}
-                    />
-                    <span className="text-sm">Customizable Products Only</span>
-                </label>
-            </div>
-
-            {hasActiveFilters && (
-                <Button variant="outline" className="w-full" onClick={clearFilters}>
-                    <X className="w-4 h-4 mr-2" />
-                    Clear Filters
-                </Button>
-            )}
-        </div>
-    );
 
     return (
         <div className="pt-24 pb-16">
@@ -271,7 +292,17 @@ const ProductsContent = () => {
                                     <SheetTitle>Filters</SheetTitle>
                                 </SheetHeader>
                                 <div className="mt-6">
-                                    <FilterContent />
+                                    <FilterContent
+                                        categories={categories}
+                                        selectedCategory={selectedCategory}
+                                        setSelectedCategory={setSelectedCategory}
+                                        priceRange={priceRange}
+                                        setPriceRange={setPriceRange}
+                                        isCustomizable={isCustomizable}
+                                        setIsCustomizable={setIsCustomizable}
+                                        hasActiveFilters={hasActiveFilters}
+                                        clearFilters={clearFilters}
+                                    />
                                 </div>
                             </SheetContent>
                         </Sheet>
@@ -293,7 +324,17 @@ const ProductsContent = () => {
                                     </button>
                                 )}
                             </div>
-                            <FilterContent />
+                            <FilterContent
+                                categories={categories}
+                                selectedCategory={selectedCategory}
+                                setSelectedCategory={setSelectedCategory}
+                                priceRange={priceRange}
+                                setPriceRange={setPriceRange}
+                                isCustomizable={isCustomizable}
+                                setIsCustomizable={setIsCustomizable}
+                                hasActiveFilters={hasActiveFilters}
+                                clearFilters={clearFilters}
+                            />
                         </div>
                     </aside>
 
