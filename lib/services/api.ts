@@ -33,7 +33,7 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
-          const response = await axios.post(`${API_URL}/auth/refresh-token`, {
+          const response = await axios.post(`${API_URL}/auth/refresh`, {
             refreshToken,
           });
 
@@ -63,19 +63,19 @@ export const authAPI = {
   register: (data: { fullName: string; email: string; password: string; phone?: string }) =>
     api.post('/auth/register', data),
   verifyEmail: (data: { userId: string; otp: string }) =>
-    api.post('/auth/verify-email', data),
+    api.post('/auth/verify', data),
   forgotPassword: (email: string) =>
     api.post('/auth/forgot-password', { email }),
   resetPassword: (data: { userId: string; otp: string; newPassword: string }) =>
     api.post('/auth/reset-password', data),
   getMe: () => api.get('/auth/me'),
   refreshToken: (refreshToken: string) =>
-    api.post('/auth/refresh-token', { refreshToken }),
+    api.post('/auth/refresh', { refreshToken }),
 };
 
 // User API
 export const userAPI = {
-  updateProfile: (data: any) => api.put('/users/profile', data),
+  updateProfile: (data: any) => api.patch('/users/profile', data),
   updateProfilePicture: (formData: FormData) =>
     api.put('/users/profile-picture', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -112,15 +112,15 @@ export const orderAPI = {
   createOrder: (data: any) => api.post('/orders', data),
   getOrders: (params?: any) => api.get('/orders', { params }),
   getOrder: (id: string) => api.get(`/orders/${id}`),
-  updateOrderStatus: (id: string, data: any) => api.put(`/orders/${id}/status`, data),
-  updatePaymentStatus: (id: string, data: any) => api.put(`/orders/${id}/payment`, data),
-  cancelOrder: (id: string) => api.post(`/orders/${id}/cancel`),
+  updateOrderStatus: (id: string, data: any) => api.patch(`/orders/${id}`, { orderStatus: data.status, trackingNumber: data.trackingNumber }),
+  updatePaymentStatus: (id: string, data: any) => api.patch(`/orders/${id}`, { paymentStatus: data.status }),
+  cancelOrder: (id: string) => api.delete(`/orders/${id}`),
   getOrderStats: () => api.get('/orders/stats'),
 };
 
 // Admin API
 export const adminAPI = {
-  getDashboardStats: (params?: any) => api.get('/admin/dashboard', { params }),
+  getDashboardStats: (params?: any) => api.get('/admin/stats', { params }),
   getUsers: (params?: any) => api.get('/admin/users', { params }),
   getUserDetails: (id: string) => api.get(`/admin/users/${id}`),
   toggleUserStatus: (id: string) => api.put(`/admin/users/${id}/toggle-status`),

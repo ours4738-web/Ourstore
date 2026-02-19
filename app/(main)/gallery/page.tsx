@@ -24,9 +24,14 @@ const Gallery = () => {
     const fetchGallery = async () => {
         try {
             const response = await galleryAPI.getGallery();
-            // Flatten images from all galleries
-            const allImages = response.data.flatMap((gallery: any) => gallery.images);
-            setImages(allImages);
+            const data = response.data;
+            if (Array.isArray(data)) {
+                // Flatten images from all galleries
+                const allImages = data.flatMap((gallery: any) => gallery.images || []);
+                setImages(allImages);
+            } else {
+                setImages([]);
+            }
         } catch (error) {
             toast.error('Failed to load gallery');
         } finally {

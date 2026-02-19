@@ -66,7 +66,7 @@ const wishlistSlice = createSlice({
             })
             .addCase(fetchWishlist.fulfilled, (state, action) => {
                 state.loading = false;
-                state.items = action.payload;
+                state.items = Array.isArray(action.payload) ? action.payload : [];
             })
             .addCase(fetchWishlist.rejected, (state, action) => {
                 state.loading = false;

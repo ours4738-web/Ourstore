@@ -142,7 +142,7 @@ const ProductsContent = () => {
             <div>
                 <h4 className="font-medium mb-3">Categories</h4>
                 <div className="space-y-2">
-                    {categories.map((category) => (
+                    {(categories || []).map((category) => (
                         <label key={category} className="flex items-center gap-2 cursor-pointer">
                             <Checkbox
                                 checked={selectedCategory === category}

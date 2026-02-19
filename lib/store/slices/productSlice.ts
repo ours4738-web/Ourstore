@@ -111,7 +111,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.products;
+        state.products = Array.isArray(action.payload.products) ? action.payload.products : [];
         state.pagination = {
           currentPage: action.payload.currentPage,
           totalPages: action.payload.totalPages,
@@ -123,14 +123,14 @@ const productSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(fetchFeaturedProducts.fulfilled, (state, action) => {
-        state.featuredProducts = action.payload;
+        state.featuredProducts = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
         state.currentProduct = action.payload.product;
         state.reviews = action.payload.reviews;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        state.categories = Array.isArray(action.payload) ? action.payload : [];
       });
   },
 });

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import { Heart, ShoppingCart, Eye, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -87,8 +88,8 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
               toggleWishlist(product);
             }}
             className={`absolute top-3 right-3 w-9 h-9 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg z-10 ${isFavorited
-                ? 'bg-saffron text-white'
-                : 'bg-white/90 text-gray-600 hover:bg-white'
+              ? 'bg-saffron text-white'
+              : 'bg-white/90 text-gray-600 hover:bg-white'
               }`}
           >
             <Heart className={`w-4 h-4 transition-colors ${isFavorited ? 'fill-current' : ''}`} />
@@ -123,8 +124,8 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
               <Star
                 key={i}
                 className={`w-4 h-4 ${i < Math.round(product.ratings.average)
-                    ? 'text-gold fill-gold'
-                    : 'text-gray-300'
+                  ? 'text-gold fill-gold'
+                  : 'text-gray-300'
                   }`}
               />
             ))}
@@ -157,4 +158,4 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

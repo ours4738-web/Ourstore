@@ -17,7 +17,7 @@ const getStoredCart = (): CartItem[] => {
 };
 
 const initialState: CartState = {
-  items: getStoredCart(),
+  items: [],
   isOpen: false,
 };
 
@@ -25,6 +25,19 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    rehydrateCart: (state) => {
+      if (typeof window !== 'undefined') {
+        try {
+          const cart = localStorage.getItem('cart');
+          if (cart) {
+            const parsed = JSON.parse(cart);
+            state.items = Array.isArray(parsed) ? parsed : [];
+          }
+        } catch (error) {
+          console.error('Failed to rehydrate cart:', error);
+        }
+      }
+    },
     addItem: (state, action: PayloadAction<CartItem>) => {
       const existingItem = state.items.find(
         (item) => item.productId === action.payload.productId
@@ -73,7 +86,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, updateQuantity, clearCart, toggleCart, setCartOpen } = cartSlice.actions;
+export const { rehydrateCart, addItem, removeItem, updateQuantity, clearCart, toggleCart, setCartOpen } = cartSlice.actions;
 export default cartSlice.reducer;
 
 export const selectCartItems = (state: { cart: CartState }) => state.cart.items;

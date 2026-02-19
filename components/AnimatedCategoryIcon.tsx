@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Camera, Cctv, Shirt, Image } from 'lucide-react';
 
 interface AnimatedCategoryIconProps {
@@ -69,4 +70,4 @@ const AnimatedCategoryIcon = ({ categoryName }: AnimatedCategoryIconProps) => {
     );
 };
 
-export default AnimatedCategoryIcon;
+export default memo(AnimatedCategoryIcon);

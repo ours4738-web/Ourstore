@@ -89,7 +89,7 @@ const orderSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
-        state.orders = action.payload.orders;
+        state.orders = Array.isArray(action.payload.orders) ? action.payload.orders : [];
       })
       .addCase(fetchOrder.fulfilled, (state, action) => {
         state.currentOrder = action.payload;

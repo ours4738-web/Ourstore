@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Camera, Cctv, Shirt, Cpu, Image, Monitor, Smartphone, Printer } from 'lucide-react';
 
 const AnimatedProductIcons = () => {
@@ -79,4 +80,4 @@ const AnimatedProductIcons = () => {
     );
 };
 
-export default AnimatedProductIcons;
+export default memo(AnimatedProductIcons);

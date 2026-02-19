@@ -13,7 +13,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <link rel="stylesheet" href="https://unpkg.com/react-quill-new@3.3.1/dist/quill.snow.css" />
             </head>

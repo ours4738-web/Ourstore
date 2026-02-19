@@ -1,7 +1,14 @@
+import { useState, useEffect } from 'react';
 import { FileText, ArrowRight, Sparkles, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ResumeBuilderBanner = () => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <div className="py-16 md:py-24 bg-white relative overflow-hidden">
             {/* Background Aesthetic Layers */}
@@ -10,7 +17,7 @@ const ResumeBuilderBanner = () => {
 
             {/* Moving Light Particles */}
             <div className="absolute inset-0 pointer-events-none opacity-20">
-                {[...Array(6)].map((_, i) => (
+                {mounted && [...Array(6)].map((_, i) => (
                     <div
                         key={i}
                         className="absolute w-1 h-1 bg-saffron rounded-full animate-float"

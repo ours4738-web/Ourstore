@@ -29,7 +29,8 @@ const Blog = () => {
     const fetchBlogs = async () => {
         try {
             const response = await blogAPI.getBlogs();
-            setBlogs(response.data.blogs);
+            const data = response.data;
+            setBlogs(Array.isArray(data?.blogs) ? data.blogs : []);
         } catch (error) {
             toast.error('Failed to load blogs');
         } finally {
