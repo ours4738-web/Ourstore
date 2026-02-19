@@ -28,6 +28,7 @@ const BlogDetail = () => {
         if (slug) {
             fetchBlog();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
     const fetchBlog = async () => {

@@ -18,6 +18,7 @@ const Home = () => {
 
     useEffect(() => {
         getFeaturedProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const features = [

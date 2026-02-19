@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ const Wishlist = () => {
 
     useEffect(() => {
         getWishlist();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (loading && wishlist.length === 0) {

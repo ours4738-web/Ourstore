@@ -27,6 +27,7 @@ const Orders = () => {
 
     useEffect(() => {
         getOrders();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleOpenReview = (product: any, orderId: string) => {

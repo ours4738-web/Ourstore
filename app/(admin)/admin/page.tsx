@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
     DollarSign,
     ShoppingBag,
@@ -43,18 +43,7 @@ const AdminDashboard = () => {
     const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
     const [dateRange, setDateRange] = useState({ label: 'Last 7 Days', from: '', to: '' });
 
-    useEffect(() => {
-        fetchStats();
-
-        // Set up polling every 30 seconds
-        const interval = setInterval(() => {
-            fetchStats(false); // Silent fetch
-        }, 30000);
-
-        return () => clearInterval(interval);
-    }, [dateRange]); // Refetch when dateRange changes
-
-    const fetchStats = async (showLoading = true) => {
+    const fetchStats = useCallback(async (showLoading = true) => {
         if (showLoading) setLoading(true);
         try {
             const { from, to } = dateRange;
@@ -66,7 +55,18 @@ const AdminDashboard = () => {
         } finally {
             if (showLoading) setLoading(false);
         }
-    };
+    }, [dateRange]);
+
+    useEffect(() => {
+        fetchStats();
+
+        // Set up polling every 30 seconds
+        const interval = setInterval(() => {
+            fetchStats(false); // Silent fetch
+        }, 30000);
+
+        return () => clearInterval(interval);
+    }, [dateRange, fetchStats]); // Refetch when dateRange changes
 
     const handleSelectRange = (range: string) => {
         const to = new Date();

@@ -64,6 +64,7 @@ export default function ProductDetailPage() {
         return () => {
             clearProduct();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     if (loading || !currentProduct) {

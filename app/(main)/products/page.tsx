@@ -55,10 +55,19 @@ const ProductsContent = () => {
         (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
     );
 
-    useEffect(() => {
-        getCategories();
-        fetchProducts();
-    }, []);
+    const updateSearchParams = () => {
+        // Next.js approach to update URL params
+        const params = new URLSearchParams();
+        if (searchQuery) params.set('search', searchQuery);
+        if (selectedCategory) params.set('category', selectedCategory);
+        if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
+        if (priceRange[1] < 50000) params.set('maxPrice', priceRange[1].toString());
+        if (isCustomizable) params.set('customizable', 'true');
+        if (sortBy !== 'createdAt') params.set('sortBy', sortBy);
+        if (sortOrder !== 'desc') params.set('sortOrder', sortOrder);
+
+        router.push(`/products?${params.toString()}`);
+    };
 
     const fetchProducts = useCallback(() => {
         const debouncedGet = debounce(() => {
@@ -80,26 +89,15 @@ const ProductsContent = () => {
         debouncedGet();
     }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, getProducts]);
 
-    const updateSearchParams = () => {
-        // Next.js approach to update URL params
-        const params = new URLSearchParams();
-        if (searchQuery) params.set('search', searchQuery);
-        if (selectedCategory) params.set('category', selectedCategory);
-        if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
-        if (priceRange[1] < 50000) params.set('maxPrice', priceRange[1].toString());
-        if (isCustomizable) params.set('customizable', 'true');
-        if (sortBy !== 'createdAt') params.set('sortBy', sortBy);
-        if (sortOrder !== 'desc') params.set('sortOrder', sortOrder);
-
-        router.push(`/products?${params.toString()}`);
-    };
+    useEffect(() => {
+        getCategories();
+        fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         fetchProducts();
-        // We don't call updateSearchParams here to avoid infinite loops or unnecessary pushes during initial render/state sync
-        // But for filter changes triggered by user, we might want to update URL.
-        // Ideally, we should sync state FROM URL, and push TO URL on change.
-        // For simplicity of migration, we'll keep similar logic but ensure we don't loop.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory, isCustomizable, sortBy, sortOrder]);
 
     // Sync URL on significant changes or just let actions trigger it
@@ -109,11 +107,13 @@ const ProductsContent = () => {
             updateSearchParams();
         }, 500);
         return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory, isCustomizable, sortBy, sortOrder, priceRange, searchQuery]);
 
 
     useEffect(() => {
         fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [priceRange]);
 
     const handleSearch = (e: React.FormEvent) => {

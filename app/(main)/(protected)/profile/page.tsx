@@ -97,8 +97,6 @@ const Profile = () => {
                 dzongkhag: '',
                 postalCode: '',
                 isDefault: false,
-                // @ts-ignore
-                isDefault: false, // Ensure it's reset correctly
             });
             refreshUser();
         } catch (error) {
