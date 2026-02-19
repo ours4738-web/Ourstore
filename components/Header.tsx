@@ -207,6 +207,12 @@ const Header = () => {
                     <User className="w-4 h-4 mr-3 text-maroon" />
                     <span className="font-medium">My Profile</span>
                   </DropdownMenuItem>
+                  {user?.role === 'admin' && (
+                    <DropdownMenuItem onClick={() => router.push('/admin')} className="rounded-xl hover:bg-saffron/5">
+                      <Shield className="w-4 h-4 mr-3 text-saffron" />
+                      <span className="font-medium">Admin Dashboard</span>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={() => router.push('/orders')} className="rounded-xl hover:bg-saffron/5">
                     <ShoppingCart className="w-4 h-4 mr-3 text-saffron" />
                     <span className="font-medium">Order History</span>

@@ -176,7 +176,18 @@ const Profile = () => {
                         <div className="flex items-center gap-3 mb-1">
                             <h1 className="text-3xl font-display font-bold text-gray-900">{user?.fullName}</h1>
                             {user?.role === 'admin' && (
-                                <span className="bg-saffron/10 text-saffron text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border border-saffron/20">Admin</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="bg-saffron/10 text-saffron text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border border-saffron/20">Admin</span>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="h-8 text-[10px] uppercase tracking-wider font-bold border-saffron text-saffron hover:bg-saffron hover:text-white"
+                                        onClick={() => window.location.href = '/admin'}
+                                    >
+                                        <Shield className="w-3 h-3 mr-1" />
+                                        Go to Dashboard
+                                    </Button>
+                                </div>
                             )}
                         </div>
                         <p className="text-gray-500 mb-4">{user?.email}</p>
