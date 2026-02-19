@@ -7,6 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { blogAPI } from '@/lib/services/api';
 import { formatDate } from '@/lib/helpers';
 import { toast } from 'sonner';
@@ -24,6 +31,7 @@ const blogSchema = z.object({
     excerpt: z.string().optional(),
     category: z.string().optional(),
     tags: z.string().optional(),
+    status: z.enum(['draft', 'published']).default('draft'),
     featuredImage: z.any().optional(),
 });
 
@@ -45,6 +53,7 @@ const AdminBlogs = () => {
             excerpt: '',
             category: '',
             tags: '',
+            status: 'draft',
         }
     });
 
@@ -54,7 +63,7 @@ const AdminBlogs = () => {
 
     const fetchBlogs = async () => {
         try {
-            const response = await blogAPI.getBlogs({}); // Fetch all blogs (draft & published)
+            const response = await blogAPI.getBlogs({ status: 'all' }); // Fetch all blogs (draft & published)
             setBlogs(response.data.blogs);
         } catch (error) {
             toast.error('Failed to load blogs');
@@ -82,6 +91,7 @@ const AdminBlogs = () => {
         setValue('excerpt', blog.excerpt || '');
         setValue('category', blog.category || '');
         setValue('tags', blog.tags ? blog.tags.join(', ') : '');
+        setValue('status', blog.status || 'draft');
 
         if (blog.featuredImage) {
             setImagePreview(blog.featuredImage);
@@ -101,6 +111,7 @@ const AdminBlogs = () => {
             if (data.excerpt) formData.append('excerpt', data.excerpt);
             if (data.category) formData.append('category', data.category);
             if (data.tags) formData.append('tags', data.tags);
+            if (data.status) formData.append('status', data.status);
 
             if (data.featuredImage) {
                 formData.append('featuredImage', data.featuredImage);
@@ -131,6 +142,7 @@ const AdminBlogs = () => {
             excerpt: '',
             category: '',
             tags: '',
+            status: 'draft',
         });
         setImagePreview(null);
         setEditingBlog(null);
@@ -206,6 +218,29 @@ const AdminBlogs = () => {
                                     <div className="space-y-2">
                                         <Label htmlFor="tags">Tags</Label>
                                         <Input id="tags" placeholder="Comma separated tags (e.g., react, javascript)" {...register('tags')} />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="status">Status</Label>
+                                        <Controller
+                                            name="status"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    value={field.value}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select status" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="draft">Draft</SelectItem>
+                                                        <SelectItem value="published">Published</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        />
                                     </div>
                                 </div>
 

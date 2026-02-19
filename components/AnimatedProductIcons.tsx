@@ -1,10 +1,10 @@
 import { memo } from 'react';
-import { Camera, Cctv, Shirt, Cpu, Image, Monitor, Smartphone, Printer } from 'lucide-react';
+import { Camera, Video, Shirt, Cpu, Image, Monitor, Smartphone, Printer } from 'lucide-react';
 
 const AnimatedProductIcons = () => {
     const products = [
         { Icon: Image, delay: '0s', position: 'top-10 left-10', colors: ['#FF00FB', '#4200FF'], id: 'grad-image' },
-        { Icon: Cctv, delay: '0.5s', position: 'top-20 right-20', colors: ['#00F0FF', '#0047FF'], id: 'grad-cctv' },
+        { Icon: Video, delay: '0.5s', position: 'top-20 right-20', colors: ['#00F0FF', '#0047FF'], id: 'grad-cctv' },
         { Icon: Shirt, delay: '1s', position: 'bottom-32 left-20', colors: ['#FF005C', '#FFBD00'], id: 'grad-shirt' },
         { Icon: Camera, delay: '1.5s', position: 'top-40 right-10', colors: ['#00FF85', '#00A3FF'], id: 'grad-camera' },
         { Icon: Cpu, delay: '2s', position: 'bottom-20 right-32', colors: ['#7000FF', '#FF00FB'], id: 'grad-cpu' },

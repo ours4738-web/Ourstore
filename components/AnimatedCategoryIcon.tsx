@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Camera, Cctv, Shirt, Image } from 'lucide-react';
+import { Camera, Video, Shirt, Image } from 'lucide-react';
 
 interface AnimatedCategoryIconProps {
     categoryName: string;
@@ -13,7 +13,7 @@ const AnimatedCategoryIcon = ({ categoryName }: AnimatedCategoryIconProps) => {
             case 'T-Shirt Printing':
                 return { Icon: Shirt, colors: ['#FF005C', '#7000FF'], id: 'cat-grad-shirt' };
             case 'CCTV Systems':
-                return { Icon: Cctv, colors: ['#00F0FF', '#0047FF'], id: 'cat-grad-cctv' };
+                return { Icon: Video, colors: ['#00F0FF', '#0047FF'], id: 'cat-grad-cctv' };
             case 'Tech Products':
                 return { Icon: Camera, colors: ['#61FF00', '#00FFF0'], id: 'cat-grad-tech' };
             default:

@@ -23,10 +23,24 @@ export async function GET(req: NextRequest) {
         await connectDB();
         const { searchParams } = new URL(req.url);
         const category = searchParams.get('category');
+        const status = searchParams.get('status'); // 'published', 'draft', or 'all'
         const limit = Number(searchParams.get('limit') || 10);
         const page = Number(searchParams.get('page') || 1);
 
-        const query: any = { status: 'published' };
+        const query: any = {};
+
+        if (status === 'all') {
+            const admin = await getAdminUser(req);
+            if (!admin) {
+                query.status = 'published';
+            }
+            // If admin, we don't set a status filter to get all
+        } else if (status) {
+            query.status = status;
+        } else {
+            query.status = 'published';
+        }
+
         if (category) query.category = category;
 
         const blogs = await Blog.find(query)
@@ -62,14 +76,27 @@ export async function POST(req: NextRequest) {
             const formData = await req.formData();
             data = Object.fromEntries(formData.entries());
 
-            const file = formData.get('image') as File;
+            const file = formData.get('featuredImage') as File;
             if (file) {
                 const buffer = Buffer.from(await file.arrayBuffer());
                 const base64Image = `data:${file.type};base64,${buffer.toString('base64')}`;
-                data.image = await uploadToCloudinary(base64Image, 'blogs');
+                data.featuredImage = await uploadToCloudinary(base64Image, 'blogs');
+            }
+
+            if (data.tags && typeof data.tags === 'string') {
+                data.tags = data.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean);
             }
         } else {
             data = await req.json();
+        }
+
+        if (!data.slug && data.title) {
+            data.slug = data.title
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/--+/g, '-')
+                .trim();
         }
 
         const blog = await Blog.create({
