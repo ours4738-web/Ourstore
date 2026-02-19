@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/sheet';
 import { useProducts } from '@/lib/hooks/useProducts';
 import ProductCard from '@/components/ProductCard';
-import { debounce } from '@/lib/helpers';
+
 
 interface FilterContentProps {
     categories: string[];
@@ -145,21 +145,11 @@ const ProductsContent = () => {
         (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
     );
 
-    const updateSearchParams = useCallback(() => {
-        const params = new URLSearchParams();
-        if (searchQuery) params.set('search', searchQuery);
-        if (selectedCategory) params.set('category', selectedCategory);
-        if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
-        if (priceRange[1] < 50000) params.set('maxPrice', priceRange[1].toString());
-        if (isCustomizable) params.set('customizable', 'true');
-        if (sortBy !== 'createdAt') params.set('sortBy', sortBy);
-        if (sortOrder !== 'desc') params.set('sortOrder', sortOrder);
 
-        router.push(`/products?${params.toString()}`);
-    }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, router]);
 
-    const fetchProducts = useCallback(() => {
-        const debouncedGet = debounce(() => {
+    // Unified fetch products effect with debouncing
+    useEffect(() => {
+        const timer = setTimeout(() => {
             const params: ProductParams = {
                 page: 1,
                 limit: 12,
@@ -176,31 +166,34 @@ const ProductsContent = () => {
             getProducts(params);
         }, 500);
 
-        debouncedGet();
+        return () => clearTimeout(timer);
     }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, getProducts]);
 
-    // Initial load
+    // Initial load for categories - only on mount
     useEffect(() => {
         getCategories();
     }, [getCategories]);
 
-    // Fetch products whenever filters change
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
-
     // Sync URL whenever filters change
     useEffect(() => {
         const timer = setTimeout(() => {
-            updateSearchParams();
-        }, 500);
+            const params = new URLSearchParams();
+            if (searchQuery) params.set('search', searchQuery);
+            if (selectedCategory) params.set('category', selectedCategory);
+            if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
+            if (priceRange[1] < 50000) params.set('maxPrice', priceRange[1].toString());
+            if (isCustomizable) params.set('customizable', 'true');
+            if (sortBy !== 'createdAt') params.set('sortBy', sortBy);
+            if (sortOrder !== 'desc') params.set('sortOrder', sortOrder);
+
+            router.push(`/products?${params.toString()}`);
+        }, 800);
         return () => clearTimeout(timer);
-    }, [updateSearchParams]);
+    }, [searchQuery, selectedCategory, priceRange, isCustomizable, sortBy, sortOrder, router]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        fetchProducts();
-        updateSearchParams();
+        // The effect above will handle the fetch due to searchQuery changing
     };
 
     const clearFilters = () => {

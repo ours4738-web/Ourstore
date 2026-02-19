@@ -17,7 +17,7 @@ export default function RootLayout({
             <head>
                 <link rel="stylesheet" href="https://unpkg.com/react-quill-new@3.3.1/dist/quill.snow.css" />
             </head>
-            <body>
+            <body suppressHydrationWarning>
                 <Providers>{children}</Providers>
             </body>
         </html>

@@ -1,4 +1,4 @@
-// useEffect imported for future use
+import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '@/lib/store';
 import {
@@ -25,33 +25,33 @@ export const useProducts = () => {
     pagination,
   } = useSelector((state: RootState) => state.products);
 
-  const getProducts = (params?: any) => {
+  const getProducts = useCallback((params?: any) => {
     return dispatch(fetchProducts(params));
-  };
+  }, [dispatch]);
 
-  const getFeaturedProducts = () => {
+  const getFeaturedProducts = useCallback(() => {
     return dispatch(fetchFeaturedProducts());
-  };
+  }, [dispatch]);
 
-  const getProduct = (id: string) => {
+  const getProduct = useCallback((id: string) => {
     return dispatch(fetchProduct(id));
-  };
+  }, [dispatch]);
 
-  const getCategories = () => {
+  const getCategories = useCallback(() => {
     return dispatch(fetchCategories());
-  };
+  }, [dispatch]);
 
-  const updateFilters = (newFilters: any) => {
+  const updateFilters = useCallback((newFilters: any) => {
     return dispatch(setFilters(newFilters));
-  };
+  }, [dispatch]);
 
-  const resetFilters = () => {
+  const resetFilters = useCallback(() => {
     return dispatch(clearFilters());
-  };
+  }, [dispatch]);
 
-  const clearProduct = () => {
+  const clearProduct = useCallback(() => {
     return dispatch(clearCurrentProduct());
-  };
+  }, [dispatch]);
 
   return {
     products,
