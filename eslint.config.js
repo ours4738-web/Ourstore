@@ -11,7 +11,7 @@ export default defineConfig([
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
-      'next': nextPlugin,
+      '@next/next': nextPlugin,
     },
     extends: [
       js.configs.recommended,
