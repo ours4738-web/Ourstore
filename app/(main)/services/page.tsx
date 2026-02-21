@@ -11,29 +11,33 @@ const ServicesPage = () => {
         {
             icon: Sparkles,
             title: 'Custom Products',
-            description: 'Personalize your tech gear and photo products with our high-quality printing services. From T-shirts to photo frames, we make it unique.',
-            grad: 'from-[#FF00FB] to-[#4200FF]',
+            description: 'Personalize your items with our custom printing services',
+            grad: 'from-[#FF00FB]/10 to-[#4200FF]/10',
+            bg: 'bg-gradient-to-br from-[#FF00FB] to-[#4200FF]',
             id: 1
         },
         {
             icon: Shield,
             title: 'Quality Guaranteed',
-            description: 'Every product and service at our store undergoes rigorous quality checks to ensure you receive only the best Bhutan has to offer.',
-            grad: 'from-[#00F0FF] to-[#0047FF]',
+            description: 'All products come with our quality assurance promise',
+            grad: 'from-[#00F0FF]/10 to-[#0047FF]/10',
+            bg: 'bg-gradient-to-br from-[#00F0FF] to-[#0047FF]',
             id: 2
         },
         {
             icon: Truck,
             title: 'Fast Delivery',
-            description: 'We understand the urgency. That is why we provide swift and secure delivery across all 20 dzongkhags of Bhutan.',
-            grad: 'from-[#FF005C] to-[#FFBD00]',
+            description: 'Quick and reliable delivery across Bhutan',
+            grad: 'from-[#FF005C]/10 to-[#FFBD00]/10',
+            bg: 'bg-gradient-to-br from-[#FF005C] to-[#FFBD00]',
             id: 3
         },
         {
             icon: Headphones,
-            title: '24/7 Premium Support',
-            description: 'Technical issues do not follow a schedule. Our expert support team is available around the clock to assist you with any queries.',
-            grad: 'from-[#61FF00] to-[#00FFF0]',
+            title: '24/7 Support',
+            description: 'Our team is always here to help you.',
+            grad: 'from-[#61FF00]/10 to-[#00FFF0]/10',
+            bg: 'bg-gradient-to-br from-[#61FF00] to-[#00FFF0]',
             id: 4
         },
     ];
@@ -68,33 +72,30 @@ const ServicesPage = () => {
                     {services.map((service, index) => (
                         <div
                             key={service.title}
-                            className="group relative p-8 md:p-12 rounded-[2.5rem] bg-white border border-gray-100 hover:border-white/50 transition-all duration-700 shadow-xl hover:shadow-[0_40px_80px_-24px_rgba(0,0,0,0.12)] transform hover:-translate-y-3 overflow-hidden"
+                            className={cn(
+                                "group relative p-8 md:p-12 rounded-[2.5rem] border border-white/20 transition-all duration-700 shadow-xl hover:shadow-[0_40px_80px_-24px_rgba(0,0,0,0.3)] transform hover:-translate-y-3 overflow-hidden",
+                                service.bg
+                            )}
                             style={{ animationDelay: `${index * 150}ms` }}
                         >
-                            {/* Animated Background Orb */}
-                            <div className={cn(
-                                "absolute top-0 right-0 w-32 h-32 blur-[80px] rounded-full opacity-0 group-hover:opacity-20 transition-all duration-1000 bg-gradient-to-br",
-                                service.grad
-                            )} />
+                            {/* Animated Background Orb (Now a subtle glow behind text) */}
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 blur-[60px] rounded-full opacity-50 group-hover:opacity-80 transition-all duration-1000" />
 
-                            <div className="relative z-10">
-                                <div className={cn(
-                                    "inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 shadow-lg",
-                                    "bg-white border border-gray-50"
-                                )}>
-                                    <service.icon className="w-8 h-8 text-maroon" />
+                            <div className="relative z-10 text-white">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 shadow-lg bg-white/20 backdrop-blur-md border border-white/30">
+                                    <service.icon className="w-8 h-8 text-white" />
                                 </div>
 
-                                <h3 className="text-2xl font-display font-bold mb-4 text-gray-900">
+                                <h3 className="text-2xl font-display font-bold mb-4 text-white">
                                     {service.title}
                                 </h3>
-                                <p className="text-muted-foreground leading-relaxed mb-8">
+                                <p className="text-white/90 leading-relaxed mb-8 font-medium">
                                     {service.description}
                                 </p>
 
                                 <Button
                                     variant="link"
-                                    className="p-0 h-auto text-maroon font-black uppercase tracking-tighter hover:no-underline group/btn"
+                                    className="p-0 h-auto text-white font-black uppercase tracking-tighter hover:no-underline hover:text-white/80 group/btn"
                                     asChild
                                 >
                                     <Link href="/contact">
@@ -105,10 +106,7 @@ const ServicesPage = () => {
                             </div>
 
                             {/* Decorative Corner */}
-                            <div className={cn(
-                                "absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br opacity-5 translate-x-12 translate-y-12 rounded-full",
-                                service.grad
-                            )} />
+                            <div className="absolute bottom-0 right-0 w-32 h-32 bg-white/10 translate-x-12 translate-y-12 rounded-full blur-2xl" />
                         </div>
                     ))}
                 </div>
