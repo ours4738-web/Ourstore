@@ -109,7 +109,7 @@ const About = () => {
                                     most trusted names in the industry.
                                 </p>
                                 <p className="text-muted-foreground">
-                                    We started as a small shop in Thimphu, offering photo printing services.
+                                    We started as a small shop in Tsirang, offering photo printing services.
                                     Today, we offer a wide range of products including custom photo frames,
                                     t-shirt printing, CCTV systems, and the latest tech gadgets.
                                 </p>

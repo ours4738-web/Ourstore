@@ -60,20 +60,20 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+        <div className="absolute top-2 left-2 md:top-3 md:left-3 flex flex-col gap-1.5 md:gap-2 z-10">
           {discount > 0 && (
-            <span className="px-2.5 py-1 bg-gradient-to-r from-saffron to-saffron-600 text-white text-xs font-semibold rounded-lg shadow-lg animate-pulse-slow">
+            <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-gradient-to-r from-saffron to-saffron-600 text-white text-[10px] md:text-xs font-semibold rounded-lg shadow-lg animate-pulse-slow">
               -{discount}%
             </span>
           )}
           {product.isCustomizable && (
-            <span className="px-2.5 py-1 bg-gradient-to-r from-bhutan-blue to-blue-700 text-white text-xs font-semibold rounded-lg flex items-center gap-1 shadow-lg">
-              <Sparkles className="w-3 h-3" />
+            <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-gradient-to-r from-bhutan-blue to-blue-700 text-white text-[10px] md:text-xs font-semibold rounded-lg flex items-center gap-1 shadow-lg">
+              <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3" />
               Custom
             </span>
           )}
           {product.isFeatured && (
-            <span className="px-2.5 py-1 bg-gradient-to-r from-gold to-yellow-600 text-white text-xs font-semibold rounded-lg shadow-lg">
+            <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-gradient-to-r from-gold to-yellow-600 text-white text-[10px] md:text-xs font-semibold rounded-lg shadow-lg">
               Featured
             </span>
           )}
@@ -110,38 +110,38 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
       </Link>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-3 md:p-4">
         <Link href={`/products/${product._id}`}>
-          <h3 className="font-semibold text-gray-900 line-clamp-2 hover:text-saffron transition-colors duration-300 mb-2">
+          <h3 className="font-semibold text-gray-900 line-clamp-2 hover:text-saffron transition-colors duration-300 mb-1.5 text-sm md:text-base">
             {product.title}
           </h3>
         </Link>
 
         {/* Rating */}
-        <div className="flex items-center gap-1 mb-3">
+        <div className="flex items-center gap-1 mb-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-4 h-4 ${i < Math.round(product.ratings.average)
+                className={`w-3 h-3 md:w-4 md:h-4 ${i < Math.round(product.ratings.average)
                   ? 'text-gold fill-gold'
                   : 'text-gray-300'
                   }`}
               />
             ))}
           </div>
-          <span className="text-xs text-muted-foreground ml-1">
+          <span className="text-[10px] md:text-xs text-muted-foreground ml-0.5">
             ({product.ratings.count})
           </span>
         </div>
 
         {/* Price */}
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-lg bg-gradient-to-r from-saffron to-maroon bg-clip-text text-transparent">
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <span className="font-bold text-base md:text-lg bg-gradient-to-r from-saffron to-maroon bg-clip-text text-transparent">
             {formatPrice(product.discountPrice || product.price)}
           </span>
           {product.discountPrice && (
-            <span className="text-sm text-gray-400 line-through">
+            <span className="text-xs md:text-sm text-gray-400 line-through">
               {formatPrice(product.price)}
             </span>
           )}
@@ -149,8 +149,8 @@ const ProductCard = ({ product, showWishlist = true }: ProductCardProps) => {
 
         {/* Stock Status */}
         {product.stock <= 5 && product.stock > 0 && (
-          <p className="text-xs text-orange-600 mt-2 font-medium">
-            Only {product.stock} left in stock!
+          <p className="text-[10px] md:text-xs text-orange-600 mt-1.5 font-medium">
+            Only {product.stock} left!
           </p>
         )}
       </div>

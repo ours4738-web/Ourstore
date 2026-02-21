@@ -68,7 +68,7 @@ const Blog = () => {
                             <p className="text-muted-foreground">No blog posts yet</p>
                         </div>
                     ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                             {blogs.map((blog) => (
                                 <article key={blog._id} className="bg-white rounded-xl shadow-sm overflow-hidden group">
                                     <Link href={`/blog/${blog.slug}`} className="block aspect-video overflow-hidden">
@@ -78,31 +78,31 @@ const Blog = () => {
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
                                     </Link>
-                                    <div className="p-6">
-                                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                                    <div className="p-3 md:p-6">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-[10px] md:text-sm text-muted-foreground mb-3">
                                             <span className="flex items-center gap-1">
-                                                <Calendar className="w-4 h-4" />
+                                                <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                                                 {formatDate(blog.createdAt)}
                                             </span>
                                             <span className="flex items-center gap-1">
-                                                <User className="w-4 h-4" />
+                                                <User className="w-3 h-3 md:w-4 md:h-4" />
                                                 {blog.author.fullName}
                                             </span>
                                         </div>
                                         <Link href={`/blog/${blog.slug}`}>
-                                            <h2 className="text-xl font-display font-semibold mb-2 group-hover:text-saffron transition-colors">
+                                            <h2 className="text-sm md:text-xl font-display font-semibold mb-2 group-hover:text-saffron transition-colors line-clamp-2">
                                                 {blog.title}
                                             </h2>
                                         </Link>
-                                        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                                        <p className="text-muted-foreground text-[10px] md:text-sm mb-3 md:mb-4 line-clamp-2">
                                             {blog.excerpt}
                                         </p>
                                         <Link
                                             href={`/blog/${blog.slug}`}
-                                            className="inline-flex items-center gap-2 text-saffron font-medium hover:underline"
+                                            className="inline-flex items-center gap-1.5 text-saffron text-[10px] md:text-sm font-medium hover:underline"
                                         >
                                             Read More
-                                            <ArrowRight className="w-4 h-4" />
+                                            <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
                                         </Link>
                                     </div>
                                 </article>

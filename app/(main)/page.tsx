@@ -131,80 +131,6 @@ const Home = () => {
 
             <ResumeBuilderBanner />
 
-            {/* Features Section */}
-            <section className="py-24 bg-gradient-to-b from-white to-bhutan-cream/30 relative overflow-hidden">
-                {/* SVG Gradients for Features */}
-                <svg width="0" height="0" className="absolute">
-                    <defs>
-                        <linearGradient id="feat-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#FF00FB', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: '#4200FF', stopOpacity: 1 }} />
-                        </linearGradient>
-                        <linearGradient id="feat-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#00F0FF', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: '#0047FF', stopOpacity: 1 }} />
-                        </linearGradient>
-                        <linearGradient id="feat-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#FF005C', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: '#FFBD00', stopOpacity: 1 }} />
-                        </linearGradient>
-                        <linearGradient id="feat-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#61FF00', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: '#00FFF0', stopOpacity: 1 }} />
-                        </linearGradient>
-                    </defs>
-                </svg>
-
-                {/* Ambient background orbs for section */}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-[#7000FF]/5 blur-[80px] rounded-full -translate-x-1/2" />
-                <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#00F0FF]/5 blur-[100px] rounded-full translate-x-1/2" />
-
-                <div className="bhutan-container relative z-10">
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                        {features.map((feature, index) => (
-                            <div
-                                key={feature.title}
-                                className="group relative p-10 rounded-[2.5rem] bg-white border border-gray-100 hover:border-white/50 transition-all duration-700 shadow-xl hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transform hover:-translate-y-3"
-                                style={{ animationDelay: `${index * 150}ms` }}
-                            >
-                                {/* Modern Icon with Iridescent Glow */}
-                                <div className="relative w-20 h-20 mx-auto mb-8">
-                                    <div className="absolute inset-0 opacity-20 blur-2xl group-hover:opacity-40 transition-all duration-700 rounded-2xl"
-                                        style={{ background: `linear-gradient(135deg, ${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}, transparent)` }}
-                                    />
-                                    <div
-                                        className="relative h-full w-full rounded-2xl flex items-center justify-center border transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-lg backdrop-blur-xl"
-                                        style={{
-                                            background: `rgba(255, 255, 255, 0.4)`,
-                                            backgroundColor: `${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}0D`,
-                                            borderColor: `${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}33`
-                                        }}
-                                    >
-                                        <feature.icon
-                                            className="w-10 h-10 transition-colors duration-500 animate-pulse-slow"
-                                            style={{ stroke: `url(#feat-grad-${index + 1})` }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <h3 className="font-display font-bold text-xl mb-4 text-gray-900 group-hover:bg-gradient-to-r from-gray-900 to-gray-500 bg-clip-text group-hover:text-transparent transition-all duration-300">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-gray-600 transition-colors duration-300">
-                                    {feature.description}
-                                </p>
-
-                                {/* Decorative bottom line */}
-                                <div
-                                    className="absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full opacity-20 group-hover:w-16 group-hover:opacity-100 transition-all duration-700"
-                                    style={{ background: `linear-gradient(90deg, ${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}, #fff)` }}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Categories Section */}
             <section className="py-20 bg-white mandala-pattern">
                 <div className="bhutan-container">
@@ -217,7 +143,7 @@ const Home = () => {
                         </p>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                         {categories.map((category, index) => (
                             <Link
                                 key={category.name}
@@ -265,7 +191,7 @@ const Home = () => {
                         </Button>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                         {(featuredProducts || []).slice(0, 8).map((product) => (
                             <ProductCard key={product._id} product={product} />
                         ))}
@@ -276,6 +202,80 @@ const Home = () => {
                             <p className="text-muted-foreground">No featured products available</p>
                         </div>
                     )}
+                </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-24 bg-gradient-to-b from-white to-bhutan-cream/30 relative overflow-hidden">
+                {/* SVG Gradients for Features */}
+                <svg width="0" height="0" className="absolute">
+                    <defs>
+                        <linearGradient id="feat-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#FF00FB', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#4200FF', stopOpacity: 1 }} />
+                        </linearGradient>
+                        <linearGradient id="feat-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#00F0FF', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#0047FF', stopOpacity: 1 }} />
+                        </linearGradient>
+                        <linearGradient id="feat-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#FF005C', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#FFBD00', stopOpacity: 1 }} />
+                        </linearGradient>
+                        <linearGradient id="feat-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#61FF00', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#00FFF0', stopOpacity: 1 }} />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                {/* Ambient background orbs for section */}
+                <div className="absolute top-0 left-0 w-64 h-64 bg-[#7000FF]/5 blur-[80px] rounded-full -translate-x-1/2" />
+                <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#00F0FF]/5 blur-[100px] rounded-full translate-x-1/2" />
+
+                <div className="bhutan-container relative z-10">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
+                        {features.map((feature, index) => (
+                            <div
+                                key={feature.title}
+                                className="group relative p-4 md:p-10 rounded-2xl md:rounded-[2.5rem] bg-white border border-gray-100 hover:border-white/50 transition-all duration-700 shadow-xl hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transform hover:-translate-y-3"
+                                style={{ animationDelay: `${index * 150}ms` }}
+                            >
+                                {/* Modern Icon with Iridescent Glow */}
+                                <div className="relative w-12 h-12 md:w-20 md:h-20 mx-auto mb-4 md:mb-8">
+                                    <div className="absolute inset-0 opacity-20 blur-2xl group-hover:opacity-40 transition-all duration-700 rounded-2xl"
+                                        style={{ background: `linear-gradient(135deg, ${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}, transparent)` }}
+                                    />
+                                    <div
+                                        className="relative h-full w-full rounded-2xl flex items-center justify-center border transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-lg backdrop-blur-xl"
+                                        style={{
+                                            background: `rgba(255, 255, 255, 0.4)`,
+                                            backgroundColor: `${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}0D`,
+                                            borderColor: `${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}33`
+                                        }}
+                                    >
+                                        <feature.icon
+                                            className="w-10 h-10 transition-colors duration-500 animate-pulse-slow"
+                                            style={{ stroke: `url(#feat-grad-${index + 1})` }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <h3 className="font-display font-bold text-sm md:text-xl mb-2 md:mb-4 text-gray-900 group-hover:bg-gradient-to-r from-gray-900 to-gray-500 bg-clip-text group-hover:text-transparent transition-all duration-300">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-muted-foreground text-[10px] md:text-sm leading-relaxed group-hover:text-gray-600 transition-colors duration-300">
+                                    {feature.description}
+                                </p>
+
+                                {/* Decorative bottom line */}
+                                <div
+                                    className="absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full opacity-20 group-hover:w-16 group-hover:opacity-100 transition-all duration-700"
+                                    style={{ background: `linear-gradient(90deg, ${['#FF00FB', '#00F0FF', '#FF005C', '#61FF00'][index]}, #fff)` }}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

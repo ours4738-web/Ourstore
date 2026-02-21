@@ -80,7 +80,7 @@ const Gallery = () => {
                             <p className="text-muted-foreground text-lg">No images in gallery yet</p>
                         </div>
                     ) : (
-                        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                        <div className="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4 space-y-3 md:space-y-4">
                             {images.map((image, index) => (
                                 <button
                                     key={image._id}
@@ -95,7 +95,7 @@ const Gallery = () => {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                     {image.caption && (
-                                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                        <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white text-[10px] md:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                             {image.caption}
                                         </div>
                                     )}
