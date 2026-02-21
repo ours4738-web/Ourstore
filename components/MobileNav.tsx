@@ -19,8 +19,8 @@ const MobileNav = () => {
     const pathname = usePathname();
 
     const navItems = [
-        { label: 'Categories', icon: LayoutGrid, href: '/#categories' },
-        { label: 'Services', icon: Wrench, href: '/#features' },
+        { label: 'Categories', icon: LayoutGrid, href: '/categories' },
+        { label: 'Services', icon: Wrench, href: '/services' },
         { label: 'About', icon: Info, href: '/about' },
         { label: 'Products', icon: ShoppingBag, href: '/products' },
         { label: 'Contact', icon: Phone, href: '/contact' },
