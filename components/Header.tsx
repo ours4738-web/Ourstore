@@ -12,7 +12,9 @@ import {
   LogOut,
   ChevronDown,
   ArrowRight,
-  Shield
+  Shield,
+  LogIn,
+  UserPlus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -248,11 +250,11 @@ const Header = () => {
                 </div>
                 {/* Mobile Auth Links */}
                 <div className="flex md:hidden items-center gap-1.5 mr-1">
-                  <Link href="/login" className="text-[10px] sm:text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full transition-colors">
-                    Login
+                  <Link href="/login" className="p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" aria-label="Login">
+                    <LogIn className="w-4 h-4" />
                   </Link>
-                  <Link href="/register" className="text-[10px] sm:text-xs font-bold bg-maroon text-white px-3 py-1.5 rounded-full shadow-sm">
-                    Sign Up
+                  <Link href="/register" className="p-2 bg-maroon text-white rounded-full shadow-sm hover:bg-maroon-800 transition-colors" aria-label="Sign Up">
+                    <UserPlus className="w-4 h-4" />
                   </Link>
                 </div>
               </>
